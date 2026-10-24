@@ -62,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <span className="font-bold text-base tracking-wide text-white">PokéAdmin</span>
-            <span className="text-[10px] uppercase font-semibold tracking-wider bg-purple-950 text-purple-300 border border-purple-800/60 px-1.5 py-0.5 rounded">
+            <span className="text-[11px] uppercase font-medium tracking-wider bg-purple-950 text-purple-300 border border-purple-800/60 px-1.5 py-0.5 rounded font-pixel">
               GBA
             </span>
           </div>

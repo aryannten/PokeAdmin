@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'PokemonEmerald';
+  src: url('/fonts/pokemon-emerald-pro.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PokemonGB';
+  src: url('/fonts/pokemon-font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-pixel {
+  font-family: 'PokemonEmerald', 'PokemonGB', monospace;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-gb {
+  font-family: 'PokemonGB', monospace;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+}
+
 :root {
   color-scheme: dark;
 }

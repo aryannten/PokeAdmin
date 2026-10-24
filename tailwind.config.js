@@ -24,6 +24,8 @@ export default {
       },
       fontFamily: {
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        pixel: ['PokemonEmerald', 'PokemonGB', 'monospace'],
+        gb: ['PokemonGB', 'monospace'],
       }
     },
   },
