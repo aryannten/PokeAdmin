@@ -82,10 +82,13 @@ Unlike legacy save editors that write arbitrary byte patches and risk corrupting
 - Instant creation of any of the **386 National Pokédex species** (Gen I #001 to Gen III #386).
 - Clear flags for in-game obtainability vs data-format validity (e.g., Hoenn starters requiring trade).
 - **Deterministic PID Solver:** Computes a mathematically valid 32-bit Personality Value satisfying:
-  $$\text{PID} \pmod{25} = \text{Nature}$$
-  $$(\text{PID} \ \& \ 0\text{xFF}) \gtrless \text{Species Gender Threshold}$$
-  $$(\text{PID} \ \& \ 1) = \text{Ability Slot (0 or 1)}$$
-  $$(\text{TID} \oplus \text{SID} \oplus \text{PID}_{\text{HI}} \oplus \text{PID}_{\text{LO}}) < 8 \iff \text{Shiny}$$
+  ```text
+  PID % 25 == desiredNature
+  (PID & 0xFF) < SpeciesGenderThreshold   -> Female
+  (PID & 0xFF) >= SpeciesGenderThreshold  -> Male
+  (PID & 1) == desiredAbilitySlot (0 or 1)
+  (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8  -> Shiny
+  ```
 - Custom IV (0–31) and EV (0–255, 510 cap) allocators, move selectors from authentic Gen 3 pools, and genuine OT metadata assignment.
 
 ### 4. Inventory Lab & Dynamic XOR Encryption
@@ -96,7 +99,9 @@ Unlike legacy save editors that write arbitrary byte patches and risk corrupting
   - TM Case (58 slots: 50 TMs + 8 HMs)
   - Berry Pouch (43 slots)
 - Handles the dynamic 32-bit `SaveBlock2` `encryptionKey`:
-  $$\text{RawQuantity} = \text{DecryptedQuantity} \oplus (\text{encryptionKey} \ \& \ 0\text{xFFFF})$$
+  ```text
+  RawQuantity = DecryptedQuantity ^ (encryptionKey & 0xFFFF)
+  ```
 - Exemption-aware: PC item storage (`SaveBlock1 + 0x0298`) is cleanly preserved unencrypted per game specifications.
 
 ### 5. Trainer Identity & Progression Card
@@ -194,7 +199,9 @@ A stored Pokémon record (`struct BoxPokemon`) consists of a 32-byte header foll
 - **M (Miscellaneous):** Pokérus, Met Location, Origins, IVs, Egg flag, Ability flag, Ribbons.
 
 The physical sequence of G, A, E, M is determined by:
-$$\text{Order Index} = \text{PID} \pmod{24}$$
+```text
+OrderIndex = PID % 24
+```
 
 ```
  0: GAEM   6: AGEM  12: EGAM  18: MGAE 
@@ -206,7 +213,9 @@ $$\text{Order Index} = \text{PID} \pmod{24}$$
 ```
 
 All 48 bytes of substructure data are XOR-encrypted using:
-$$\text{EncryptionKey} = \text{PID} \oplus \text{OTID}$$
+```text
+EncryptionKey = PID ^ OTID
+```
 
 ---
 
